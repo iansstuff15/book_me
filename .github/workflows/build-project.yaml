@@ -19,15 +19,6 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '3.x'
-      - name: Check secrets
-        run: |
-          required_secrets=('FIREBASE_APP_ID_ANDROID')
-          for secret in "${required_secrets[@]}"; do
-            if [[ -z "${{ secrets[secret] }}" ]]; then
-              echo "Error: Secret $secret is not set"
-              exit 1
-            fi
-          done
       - name: Install dependencies
         run: flutter pub get
 
@@ -73,11 +64,12 @@ jobs:
           curl -sL https://firebase.tools | bash
 
       - name: Login to Firebase
-        run: firebase login --non-interactive --token ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          firebase login --non-interactive --token ${{ env.FIREBASE_TOKEN }}
 
       - name: Distribute Android build via Firebase App Distribution
         run: |
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app ${{ secrets.FIREBASE_APP_ID_ANDROID }} --token ${{ secrets.FIREBASE_TOKEN }} --groups testers
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app ${{ env.FIREBASE_APP_ID_ANDROID }} --token ${{ env.FIREBASE_TOKEN }} --groups testers
       # removed temporarily as I don't have apple developer account to sign build
       # - name: Distribute iOS build via Firebase App Distribution
       #   run: |

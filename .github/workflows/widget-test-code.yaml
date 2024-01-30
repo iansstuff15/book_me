@@ -1,0 +1,33 @@
+name: Run Widget Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.x'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run widget tests
+        run: flutter test
+
+      - name: Notify on failure
+        if: failure()
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/${{ github.repository }}/issues
+          title: 'Widget tests failed'
+          body:
+            'The widget tests failed. Please check the logs for more details.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

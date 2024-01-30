@@ -1,0 +1,64 @@
+name: Validate Push
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Check secrets
+        run: |
+          required_secrets=('FIREBASE_APP_ID_ANDROID')
+          for secret in "${required_secrets[@]}"; do
+            if [[ -z "${{ secrets[secret] }}" ]]; then
+              echo "Error: Secret $secret is not set"
+              exit 1
+            fi
+          done
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.x'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Flutter APK
+        run: flutter build apk
+
+      - name: Build Flutter iOS app (simulator build)
+        run: flutter build ios --no-codesign
+
+      - name: Check for merge conflicts
+        run: |
+          git fetch origin master
+          if git diff --check master..HEAD; then
+            echo "No merge conflicts"
+          else
+            echo "Merge conflict detected"
+            exit 1
+          fi
+
+      - name: Create Issue
+        uses: JasonEtco/create-an-issue@v2
+        if: failure()
+        with:
+          title: Build failed
+          body: |
+            The build failed. Here are the details:
+            ```
+            ${{ steps.build.outputs.stderr }}
+            ```
+          assignees: ${{ github.repository_owner }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

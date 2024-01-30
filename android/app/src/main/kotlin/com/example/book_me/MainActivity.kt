@@ -1,4 +1,4 @@
-package com.example.book_me
+package dev.book_me.by_ian
 
 import io.flutter.embedding.android.FlutterActivity
 

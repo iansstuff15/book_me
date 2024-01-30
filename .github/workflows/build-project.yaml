@@ -19,7 +19,15 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '3.x'
-
+      - name: Check secrets
+        run: |
+          required_secrets=('FIREBASE_APP_ID_ANDROID')
+          for secret in "${required_secrets[@]}"; do
+            if [[ -z "${{ secrets[secret] }}" ]]; then
+              echo "Error: Secret $secret is not set"
+              exit 1
+            fi
+          done
       - name: Install dependencies
         run: flutter pub get
 

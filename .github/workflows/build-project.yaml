@@ -1,0 +1,63 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # removed temporarily as I don't have apple developer account to sign build
+    # runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.x'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk
+      # removed temporarily as I don't have apple developer account to sign build
+      # - name: Build iOS
+      #   run: |
+      #     flutter build ios --release --no-codesign
+      - name: Increment build number
+        run: |
+          # Get the current version number
+          version=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+
+          # Split the version number into an array
+          IFS='+' read -ra ADDR <<< "$version"
+
+          # Increment the build number
+          new_build_number=$((${ADDR[1]} + 1))
+
+          # Construct the new version number
+          new_version="${ADDR[0]}+$new_build_number"
+
+          # Replace the old version number with the new version number in pubspec.yaml
+          sed -i "s/version: .*/version: $new_version/" pubspec.yaml
+
+      - name: Install Firebase CLI
+        run: |
+          curl -sL https://firebase.tools | bash
+
+      - name: Login to Firebase
+        run:
+          firebase login --non-interactive --token ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Distribute Android build via Firebase App Distribution
+        run: |
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app ${{ secrets.FIREBASE_APP_ID_ANDROID }} --token ${{ secrets.FIREBASE_TOKEN }} --groups testers
+      # removed temporarily as I don't have apple developer account to sign build
+      # - name: Distribute iOS build via Firebase App Distribution
+      #   run: |
+      #     firebase appdistribution:distribute build/ios/iphoneos/Runner.ipa --app ${{ secrets.FIREBASE_APP_ID_IOS }} --token ${{ secrets.FIREBASE_TOKEN }} --groups testers

@@ -1,0 +1,33 @@
+name: Document Code
+
+on: [push]
+
+jobs:
+  document:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydriller
+
+      - name: Document code
+        run: |
+          python .github/scripts/document_code.py
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "Update documentation" || echo "No changes to commit"
+          git push

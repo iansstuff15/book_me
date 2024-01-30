@@ -65,11 +65,11 @@ jobs:
 
       - name: Login to Firebase
         run: |
-          firebase login --non-interactive --token ${{ env.FIREBASE_TOKEN }}
+          firebase login --non-interactive --token ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Distribute Android build via Firebase App Distribution
         run: |
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app ${{ env.FIREBASE_APP_ID_ANDROID }} --token ${{ env.FIREBASE_TOKEN }} --groups testers
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app ${{ secrets.FIREBASE_APP_ID_ANDROID }} --token ${{ secrets.FIREBASE_TOKEN }} --groups testers
       # removed temporarily as I don't have apple developer account to sign build
       # - name: Distribute iOS build via Firebase App Distribution
       #   run: |

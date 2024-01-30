@@ -63,10 +63,6 @@ jobs:
         run: |
           curl -sL https://firebase.tools | bash
 
-      - name: Login to Firebase
-        run: |
-          firebase login --non-interactive --token ${{ secrets.FIREBASE_TOKEN }}
-
       - name: Distribute Android build via Firebase App Distribution
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk --app ${{ secrets.FIREBASE_APP_ID_ANDROID }} --token ${{ secrets.FIREBASE_TOKEN }} --groups testers

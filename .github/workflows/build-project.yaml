@@ -70,3 +70,12 @@ jobs:
       # - name: Distribute iOS build via Firebase App Distribution
       #   run: |
       #     firebase appdistribution:distribute build/ios/iphoneos/Runner.ipa --app ${{ secrets.FIREBASE_APP_ID_IOS }} --token ${{ secrets.FIREBASE_TOKEN }} --groups testers
+      - name: Notify on failure
+        if: failure()
+        uses: octokit/request-action@v2.x
+        with:
+                route: POST /repos/${{ github.repository }}/issues
+                title: "Workflow failed"
+                body: "The workflow failed. Please check the logs for more details."
+        env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

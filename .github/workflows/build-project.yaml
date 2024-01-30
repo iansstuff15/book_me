@@ -19,7 +19,6 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '3.x'
-
       - name: Install dependencies
         run: flutter pub get
 
@@ -29,30 +28,40 @@ jobs:
       # - name: Build iOS
       #   run: |
       #     flutter build ios --release --no-codesign
-      - name: Increment build number
+      - name: Increment build number and commit
         run: |
           # Get the current version number
           version=$(grep 'version:' pubspec.yaml | sed 's/version: //')
-
+      
           # Split the version number into an array
           IFS='+' read -ra ADDR <<< "$version"
-
+      
           # Increment the build number
           new_build_number=$((${ADDR[1]} + 1))
-
+      
           # Construct the new version number
           new_version="${ADDR[0]}+$new_build_number"
-
+      
           # Replace the old version number with the new version number in pubspec.yaml
           sed -i "s/version: .*/version: $new_version/" pubspec.yaml
+      
+          # Configure Git
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'github-actions@github.com'
+      
+          # Stage all changes
+          git add -A
+      
+          # Check if there are any changes to commit
+          if ! git diff --quiet && git diff --staged --quiet; then
+            # Commit with the new version number in the commit message
+            git commit -m "Increment build number to $new_version"
+            git push
+          fi
 
       - name: Install Firebase CLI
         run: |
           curl -sL https://firebase.tools | bash
-
-      - name: Login to Firebase
-        run:
-          firebase login --non-interactive --token ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Distribute Android build via Firebase App Distribution
         run: |

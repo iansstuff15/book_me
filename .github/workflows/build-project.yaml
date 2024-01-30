@@ -53,7 +53,7 @@ jobs:
           git add -A
       
           # Check if there are any changes to commit
-          if ! git diff --quiet && git diff --staged --quiet; then
+          if ! git diff --staged --quiet; then
             # Commit with the new version number in the commit message
             git commit -m "Increment build number to $new_version"
             git push

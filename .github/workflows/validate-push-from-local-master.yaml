@@ -7,16 +7,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Check secrets
-        run: |
-          required_secrets=('FIREBASE_APP_ID_ANDROID')
-          for secret in "${required_secrets[@]}"; do
-            if [[ -z "${{ secrets[secret] }}" ]]; then
-              echo "Error: Secret $secret is not set"
-              exit 1
-            fi
-          done
-
+      
       - name: Checkout code
         uses: actions/checkout@v2
 

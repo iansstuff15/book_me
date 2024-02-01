@@ -1,8 +1,10 @@
 name: Flutter CI/CD
 
 on:
-  push:
-    branches: [master]
+  workflow_run:
+    workflows: ["Run Widget Tests"]
+    types:
+      - completed
 
 jobs:
   build:
@@ -21,6 +23,36 @@ jobs:
           flutter-version: '3.x'
       - name: Install dependencies
         run: flutter pub get
+      - name: Increment build number and commit
+        run: |
+            # Get the current version number
+            version=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+        
+            # Split the version number into an array
+            IFS='+' read -ra ADDR <<< "$version"
+        
+            # Increment the build number
+            new_build_number=$((${ADDR[1]} + 1))
+        
+            # Construct the new version number
+            new_version="${ADDR[0]}+$new_build_number"
+        
+            # Replace the old version number with the new version number in pubspec.yaml
+            sed -i "s/version: .*/version: $new_version/" pubspec.yaml
+        
+            # Configure Git
+            git config --global user.name 'GitHub Actions'
+            git config --global user.email 'github-actions@github.com'
+        
+            # Stage all changes
+            git add -A
+        
+            # Check if there are any changes to commit
+            if ! git diff --staged --quiet; then
+              # Commit with the new version number in the commit message
+              git commit -m "Increment build number to $new_version"
+              git push
+            fi
 
       - name: Build APK
         run: flutter build apk
@@ -28,37 +60,7 @@ jobs:
       # - name: Build iOS
       #   run: |
       #     flutter build ios --release --no-codesign
-      - name: Increment build number and commit
-        run: |
-          # Get the current version number
-          version=$(grep 'version:' pubspec.yaml | sed 's/version: //')
-      
-          # Split the version number into an array
-          IFS='+' read -ra ADDR <<< "$version"
-      
-          # Increment the build number
-          new_build_number=$((${ADDR[1]} + 1))
-      
-          # Construct the new version number
-          new_version="${ADDR[0]}+$new_build_number"
-      
-          # Replace the old version number with the new version number in pubspec.yaml
-          sed -i "s/version: .*/version: $new_version/" pubspec.yaml
-      
-          # Configure Git
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'github-actions@github.com'
-      
-          # Stage all changes
-          git add -A
-      
-          # Check if there are any changes to commit
-          if ! git diff --staged --quiet; then
-            # Commit with the new version number in the commit message
-            git commit -m "Increment build number to $new_version"
-            git push
-          fi
-
+   
       - name: Install Firebase CLI
         run: |
           curl -sL https://firebase.tools | bash
@@ -70,3 +72,12 @@ jobs:
       # - name: Distribute iOS build via Firebase App Distribution
       #   run: |
       #     firebase appdistribution:distribute build/ios/iphoneos/Runner.ipa --app ${{ secrets.FIREBASE_APP_ID_IOS }} --token ${{ secrets.FIREBASE_TOKEN }} --groups testers
+      - name: Notify on failure
+        if: failure()
+        uses: octokit/request-action@v2.x
+        with:
+                route: POST /repos/${{ github.repository }}/issues
+                title: "Workflow failed"
+                body: "The workflow failed. Please check the logs for more details."
+        env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

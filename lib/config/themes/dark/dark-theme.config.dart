@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 ThemeData darkAppTheme = ThemeData(
   scaffoldBackgroundColor: Colors.black,
+  primaryColor: Colors.white,
   textTheme: textDarkTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
@@ -15,5 +16,10 @@ ThemeData darkAppTheme = ThemeData(
       foregroundColor: Colors.white,
       side: const BorderSide(color: Colors.white),
     ),
+  ),
+  tabBarTheme: const TabBarTheme(
+    labelColor: Colors.white,
+    unselectedLabelColor: Colors.grey,
+    indicatorColor: Colors.white,
   ),
 );

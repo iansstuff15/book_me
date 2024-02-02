@@ -4,6 +4,7 @@ import 'package:book_me/config/sizes.config.dart';
 import 'package:book_me/features/components/buttons/elevated-button.components.dart';
 import 'package:book_me/features/components/buttons/outlined-button.components.dart';
 import 'package:book_me/features/components/scaffold.components.dart';
+import 'package:book_me/features/pages/home.pages.dart';
 import 'package:book_me/util/launcher.dart';
 import 'package:book_me/util/os.dart';
 import 'package:book_me/util/package.dart';
@@ -27,7 +28,9 @@ class WelcomePage extends StatelessWidget {
           child: AppElevatedButton(
             block: true,
             label: 'Get Started',
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.pushNamed(context, HomePage.routeName),
+            },
           )),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

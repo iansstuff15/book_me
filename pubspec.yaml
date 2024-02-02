@@ -37,6 +37,7 @@ dependencies:
   flutter_svg: ^2.0.9
   url_launcher: ^6.2.4
   toastification: ^1.2.0
+  once: ^1.6.1
 
 dev_dependencies:
   flutter_test:

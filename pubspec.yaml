@@ -39,6 +39,7 @@ dependencies:
   toastification: ^1.2.0
   once: ^1.6.1
   package_info_plus: ^5.0.1
+  timelines: ^0.1.0
 
 dev_dependencies:
   flutter_test:

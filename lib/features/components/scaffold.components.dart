@@ -19,7 +19,9 @@ class AppScaffold extends StatelessWidget {
       bottomNavigationBar: bottomWidget,
       body: SafeArea(
           child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.medium,
+              ),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: SizedBox(

@@ -6,6 +6,7 @@ import 'package:book_me/features/components/buttons/outlined-button.components.d
 import 'package:book_me/features/components/scaffold.components.dart';
 import 'package:book_me/util/launcher.dart';
 import 'package:book_me/util/os.dart';
+import 'package:book_me/util/package.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -61,7 +62,9 @@ class WelcomePage extends StatelessWidget {
             ),
           ],
         ),
-        const Spacer(),
+        const SizedBox(
+          height: AppSizes.medium,
+        ),
         AppIcon,
         const SizedBox(
           height: AppSizes.small,
@@ -105,6 +108,24 @@ class WelcomePage extends StatelessWidget {
           block: true,
         ),
         const Spacer(),
+        FutureBuilder<PackageData>(
+            future: Package.getPackageData(),
+            builder:
+                (BuildContext context, AsyncSnapshot<PackageData> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else if (!snapshot.hasData) {
+                return const Text('Loading...');
+              }
+              final data = snapshot.data!;
+              return Center(
+                child: Text(
+                    '${data.packageName} v${data.version}+${data.buildNumber}'),
+              );
+            }),
+        const SizedBox(
+          height: AppSizes.small,
+        )
       ],
     );
   }

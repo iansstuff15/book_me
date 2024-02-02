@@ -1,3 +1,4 @@
+import 'package:book_me/config/sizes.config.dart';
 import 'package:book_me/config/themes/light/text.theme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,9 +8,12 @@ ThemeData lightAppTheme = ThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+    ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      foregroundColor: Colors.black,
+      side: const BorderSide(color: Colors.black),
     ),
   ),
 );

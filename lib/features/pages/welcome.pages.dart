@@ -12,6 +12,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Spacer(),
         Row(
@@ -62,11 +63,13 @@ class WelcomePage extends StatelessWidget {
         SizedBox(
           height: AppSizes.small,
         ),
+        const Spacer(),
         AppElevatedButton(
           block: true,
           label: 'Get Started',
           onPressed: () => {},
-        )
+        ),
+        const Spacer(),
       ],
     );
   }

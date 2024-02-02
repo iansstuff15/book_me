@@ -1,6 +1,4 @@
 import 'package:book_me/config/app.config.dart';
-import 'package:book_me/config/routes.config.dart';
-import 'package:book_me/features/pages/book.pages.dart';
 import 'package:flutter/material.dart';
 
 void main() {

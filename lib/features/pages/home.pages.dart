@@ -5,6 +5,7 @@ import 'package:book_me/features/components/home-tabs/food-tab.component.dart';
 import 'package:book_me/features/components/home-tabs/rides-tab.component.dart';
 import 'package:book_me/features/components/scaffold.components.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = '/home';
@@ -17,16 +18,47 @@ class HomePage extends StatelessWidget {
       fontWeight: FontWeight.bold,
     );
 
-    return AppScaffold(
-      children: [
-        AppIcon,
-        const SizedBox(
-          height: AppSizes.medium,
-        ),
-        DefaultTabController(
-            length: 2,
-            child: Column(
+    return DefaultTabController(
+        length: 2,
+        child: AppScaffold(
+          bottomWidget: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.house),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.grip),
+                label: 'Services',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.receipt),
+                label: 'Activity',
+              ),
+            ],
+          ),
+          appBar: AppBar(
+            toolbarHeight: 100,
+            actions: [
+              Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  padding: const EdgeInsets.all(AppSizes.small),
+                  margin: const EdgeInsets.only(right: AppSizes.small),
+                  child: Icon(
+                    FontAwesomeIcons.user,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ))
+            ],
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppIcon,
+                const SizedBox(
+                  height: AppSizes.small,
+                ),
                 TabBar(
                   isScrollable: true,
                   tabAlignment: TabAlignment.start,
@@ -39,7 +71,7 @@ class HomePage extends StatelessWidget {
                           height: AppSizes.medium,
                         ),
                         Text(
-                          "Rides",
+                          "Ride",
                           style: tabTextStyle,
                         ),
                       ],
@@ -59,19 +91,19 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: AppSizes.getPercentOfDeviceHeight(
-                      context: context, percent: 0.85),
-                  child: const TabBarView(
-                    children: [
-                      HomeTab(),
-                      FoodTab(),
-                    ],
-                  ),
-                ),
               ],
-            )),
-      ],
-    );
+            ),
+          ),
+          children: [
+            Expanded(
+              child: const TabBarView(
+                children: [
+                  HomeTab(),
+                  FoodTab(),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }

@@ -22,14 +22,15 @@ class WelcomePage extends StatelessWidget {
     return AppScaffold(
       bottomWidget: Padding(
           padding: EdgeInsets.only(
-              right: AppSizes.medium,
-              left: AppSizes.medium,
+              right: AppSizes.small,
+              left: AppSizes.small,
               bottom: OS.isAndroid ? 0 : AppSizes.small),
           child: AppElevatedButton(
             block: true,
             label: 'Get Started',
             onPressed: () => {
-              Navigator.pushNamed(context, HomePage.routeName),
+              Navigator.pushNamedAndRemoveUntil(
+                  context, HomePage.routeName, (route) => false),
             },
           )),
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,15 +20,10 @@ TextTheme textDarkTheme = const TextTheme(
   displaySmall: TextStyle(
     color: Colors.white,
   ),
-  headlineLarge: TextStyle(
-    color: Colors.white,
-  ),
-  headlineMedium: TextStyle(
-    color: Colors.white,
-  ),
-  headlineSmall: TextStyle(
-    color: Colors.white,
-  ),
+  headlineLarge: TextStyle(color: Colors.white, fontWeight: AppFontWeight.bold),
+  headlineMedium:
+      TextStyle(color: Colors.white, fontWeight: AppFontWeight.bold),
+  headlineSmall: TextStyle(color: Colors.white, fontWeight: AppFontWeight.bold),
   titleLarge: TextStyle(
     color: Colors.white,
   ),

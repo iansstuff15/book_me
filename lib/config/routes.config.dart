@@ -9,4 +9,4 @@ Map<String, Widget Function(BuildContext)> appRoutes = {
   HomePage.routeName: (context) => const HomePage(),
 };
 
-String initialRoute = WelcomePage.routeName;
+String initialRoute = HomePage.routeName;

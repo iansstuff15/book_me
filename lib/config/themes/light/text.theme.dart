@@ -1,3 +1,4 @@
+import 'package:book_me/config/font-weight.dart';
 import 'package:flutter/material.dart';
 
 TextTheme textLightTheme = const TextTheme(
@@ -19,15 +20,10 @@ TextTheme textLightTheme = const TextTheme(
   displaySmall: TextStyle(
     color: Colors.black,
   ),
-  headlineLarge: TextStyle(
-    color: Colors.black,
-  ),
-  headlineMedium: TextStyle(
-    color: Colors.black,
-  ),
-  headlineSmall: TextStyle(
-    color: Colors.black,
-  ),
+  headlineLarge: TextStyle(color: Colors.black, fontWeight: AppFontWeight.bold),
+  headlineMedium:
+      TextStyle(color: Colors.black, fontWeight: AppFontWeight.bold),
+  headlineSmall: TextStyle(color: Colors.black, fontWeight: AppFontWeight.bold),
   titleLarge: TextStyle(
     color: Colors.black,
   ),

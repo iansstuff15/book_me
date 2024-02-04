@@ -3,10 +3,10 @@ import 'package:book_me/config/font-weight.dart';
 import 'package:book_me/config/sizes.config.dart';
 import 'package:book_me/features/components/buttons/elevated-button.components.dart';
 import 'package:book_me/features/components/buttons/outlined-button.components.dart';
-import 'package:book_me/features/components/scaffold.components.dart';
+import 'package:book_me/features/components/layout/scaffold.components.dart';
 import 'package:book_me/features/pages/home.pages.dart';
 import 'package:book_me/util/launcher.dart';
-import 'package:book_me/util/os.dart';
+import 'package:book_me/util/device.dart';
 import 'package:book_me/util/package.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +24,7 @@ class WelcomePage extends StatelessWidget {
           padding: EdgeInsets.only(
               right: AppSizes.small,
               left: AppSizes.small,
-              bottom: OS.isAndroid ? 0 : AppSizes.small),
+              bottom: Device.isAndroid ? 0 : AppSizes.small),
           child: AppElevatedButton(
             block: true,
             label: 'Get Started',

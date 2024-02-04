@@ -3,7 +3,7 @@ import 'package:book_me/config/sizes.config.dart';
 import 'package:book_me/features/components/buttons/elevated-button.components.dart';
 import 'package:book_me/features/components/home-tabs/food-tab.component.dart';
 import 'package:book_me/features/components/home-tabs/rides-tab.component.dart';
-import 'package:book_me/features/components/scaffold.components.dart';
+import 'package:book_me/features/components/layout/scaffold.components.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
             Expanded(
               child: const TabBarView(
                 children: [
-                  HomeTab(),
+                  HomeTab.RidesTab(),
                   FoodTab(),
                 ],
               ),

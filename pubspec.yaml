@@ -41,6 +41,10 @@ dependencies:
   package_info_plus: ^5.0.1
   timelines: ^0.1.0
   font_awesome_flutter: ^10.7.0
+  google_maps_flutter: ^2.5.3
+  maps_toolkit: ^3.0.0
+  onesignal_flutter: ^5.1.0
+  loading_indicator: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +73,7 @@ flutter:
     - assets/icons/
     - assets/icons/android/
     - assets/icons/ios/
+    - assets/maps/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

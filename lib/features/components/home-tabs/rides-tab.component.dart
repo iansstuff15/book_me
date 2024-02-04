@@ -2,10 +2,11 @@ import 'package:book_me/config/sizes.config.dart';
 import 'package:book_me/features/components/buttons/elevated-button.components.dart';
 import 'package:book_me/features/components/cards/activity-card.components.dart';
 import 'package:book_me/features/components/cards/places-card.components.dart';
+import 'package:book_me/features/pages/book_rides.pages.dart';
 import 'package:flutter/material.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+  const HomeTab.RidesTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,9 @@ class HomeTab extends StatelessWidget {
       children: [
         AppElevatedButton(
           label: "Where to?",
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, BookRidesPage.routeName);
+          },
           icon: Icons.search,
           block: true,
         ),
